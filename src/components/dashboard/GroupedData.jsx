@@ -8,15 +8,18 @@ function GroupedData({ todo, onClick }) {
         {/* Text section */}
         <div className="flex-1">
           <h2 className="font-semibold  text-lg">{todo.title}</h2>
-          <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">{todo.description}</p>
+          <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">
+            {todo.description}
+          </p>
         </div>
 
         {/* Image */}
         <div className="shrink-0">
           <img
-            src={todo.images?.[0]}
+            src={todo.image}
             alt="todo"
             className="w-16 h-16 object-cover rounded-lg"
+            loading="lazy"
           />
         </div>
       </div>

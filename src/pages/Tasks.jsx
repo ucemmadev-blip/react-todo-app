@@ -1,10 +1,10 @@
 import DashboardLayout from "../components/layouts/DashboardLayout";
-
-import todos from "../data/todo";
 import GroupedData from "../components/dashboard/GroupedData";
 import { useState } from "react";
+import { useTodo } from "../context/TodoContext";
 
 function Tasks() {
+  const { todos } = useTodo()
   const [selectedTodo, setSelectedTodo] = useState();
 
   return (
@@ -14,7 +14,7 @@ function Tasks() {
           <h2 className="mb-5 font-semibold text-md">My Task</h2>
 
           <div className="flex flex-col gap-3">
-            {todos.slice(0, 3).map((todo) => (
+            {todos.map((todo) => (
               <GroupedData
                 key={todo.id}
                 todo={todo}

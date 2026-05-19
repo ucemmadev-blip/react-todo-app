@@ -1,20 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useTodo } from "../../context/TodoContext";
 
 function CreateTodoModal({ isOpen, onClose }) {
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    priority: "",
-    date: "",
-  });
+  const [previewImage, setPreviewImage] = useState();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const { addTodo } = useTodo();
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const imageFile = watch("image");
+
+  useEffect(() => {
+    if (imageFile && imageFile[0]) {
+      const file = imageFile[0];
+
+      const imageUrl = URL.createObjectURL(file);
+
+      setPreviewImage(imageUrl);
+    }
+  }, [imageFile]);
+
+  const onSubmit = (data) => {
+    addTodo({
+      id: Date.now(),
+      title: data.title,
+      description: data.description,
+      status: "pending",
+      priority: data.priority,
+      date: data.date,
+      image: previewImage,
+    });
+    console.log(data);
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -28,64 +50,101 @@ function CreateTodoModal({ isOpen, onClose }) {
             Go Back
           </p>
         </div>
-
-        <input
-          type="text"
-          name="title"
-          placeholder="Todo title"
-          value={formData.title}
-          onChange={handleChange}
-          className="w-full border dark:border-slate-600 dark:bg-slate-700 p-3 rounded-lg mb-4 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-
-        <select
-          name="priority"
-          value={formData.priority}
-          onChange={handleChange}
-          className="w-full border dark:border-slate-600 dark:bg-slate-700 p-3 rounded-lg mb-4 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="">Select Priority</option>
-
-          <option value="Extreme">Extreme</option>
-
-          <option value="Moderate">Moderate</option>
-
-          <option value="Low">Low</option>
-        </select>
-
-        <input
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
-          className="w-full border dark:border-slate-600 dark:bg-slate-700 p-3 rounded-lg mb-6 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <div className="flex gap-4 justify-center">
-          <textarea
-            name="description"
-            placeholder="Description"
-            value={formData.description}
-            onChange={handleChange}
-            className="w-full border dark:border-slate-600 dark:bg-slate-700 p-3 rounded-lg mb-5 h-32 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <input
+            type="text"
+            name="title"
+            {...register("title", { required: "Title is required!" })}
+            placeholder="Todo title"
+            className="w-full border dark:border-slate-600 dark:bg-slate-700 p-3 rounded-lg mb-4 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <div className="">
-            <div className="border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-2xl p-6 bg-gray-50 dark:bg-slate-700 flex flex-col items-center justify-center text-center transition-colors">
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                Upload an image for this task
-              </p>
+          {errors.title && (
+            <p className="text-red-500 text-sm">{errors.title.message}</p>
+          )}
 
-              <button className="px-3 py-2.5 bg-[#FF6767] text-white rounded-xl shadow-sm hover:shadow-md hover:opacity-90 transition-all duration-200">
-                Browse
-              </button>
+          <select
+            name="priority"
+            {...register("priority", { required: "Priority is required!" })}
+            className="w-full border dark:border-slate-600 dark:bg-slate-700 p-3 rounded-lg mb-4 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Select Priority</option>
+
+            <option value="Extreme">Extreme</option>
+
+            <option value="Moderate">Moderate</option>
+
+            <option value="Low">Low</option>
+          </select>
+          {errors.priority && (
+            <p className="text-red-500 text-sm">{errors.priority.message}</p>
+          )}
+
+          <input
+            type="date"
+            name="date"
+            {...register("date", { required: "Date is required" })}
+            className="w-full border dark:border-slate-600 dark:bg-slate-700 p-3 rounded-lg mb-6 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          {errors.priority && (
+            <p className="text-red-500 text-sm">{errors.priority.message}</p>
+          )}
+
+          <div className="flex gap-4 justify-center">
+            <textarea
+              name="description"
+              {...register("description", {
+                required: "Description is required!",
+              })}
+              placeholder="Description"
+              className="w-full border dark:border-slate-600 dark:bg-slate-700 p-3 rounded-lg mb-5 h-32 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            {errors.description && (
+              <p className="text-red-500 text-sm">
+                {errors.description.message}
+              </p>
+            )}
+            <div>
+              <div className="border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-2xl p-6 bg-gray-50 dark:bg-slate-700 flex flex-col items-center justify-center text-center transition-colors">
+                {previewImage ? (
+                  <img
+                    src={previewImage}
+                    alt=""
+                    className="w-full h-42"
+                    loading="lazy"
+                  />
+                ) : (
+                  <>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                      Upload an image for this task
+                    </p>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      {...register("image")}
+                      id="imageUpload"
+                      className="hidden"
+                    />
+                    <label
+                      htmlFor="imageUpload"
+                      className="cursor-pointer px-4 py-2 bg-[#FF6767] text-white rounded-xl shadow-sm hover:shadow-md hover:opacity-90 transition-all duration-200"
+                    >
+                      Browse
+                    </label>
+                  </>
+                )}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div>
-          <button className="px-4 py-2 bg-[#FF6767] text-white rounded-lg">
-            Create
-          </button>
-        </div>
+          <div>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-[#FF6767] text-white rounded-lg"
+            >
+              Create
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

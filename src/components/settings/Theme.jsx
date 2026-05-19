@@ -3,11 +3,6 @@ import { useTheme } from "../../context/ThemeContext";
 function Theme() {
   const { darkMode, toggleDarkMode } = useTheme()
 
-  // const [isDarkMode, setIsDarkMode] = useState(false);
-  // const handleThemeChange = (mode) => {
-  //   setIsDarkMode(mode === "dark");
-  // };
-
   return (
     <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-6 shadow-sm transition-colors">
       <h1 className="font-medium text-2xl mb-2">Theme Settings</h1>

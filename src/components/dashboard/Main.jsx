@@ -1,11 +1,12 @@
-import todos from "../../data/todo";
 import GroupedData from "./GroupedData";
 import CircularProgress from "./CircularProgress";
 import CreateTodoModal from "../modals/CreateTodoModal";
 import { useState } from "react";
+import { useTodo } from "../../context/TodoContext";
 
 function Main() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { todos } = useTodo();
 
   const completedTodos = todos.filter((todo) => todo.status === "completed");
   return (
