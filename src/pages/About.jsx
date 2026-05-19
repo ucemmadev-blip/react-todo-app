@@ -4,9 +4,9 @@ function About() {
   return (
     <DashboardLayout>
       <div className="max-w-4xl mx-auto w-full">
-        <div className="bg-white rounded-xl border border-gray-200 p-4 md:p-6 shadow-sm">
+        <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4 md:p-6 shadow-sm transition-colors">
           <h1 className="font-medium text-2xl mb-4">About This App</h1>
-          <div className="text-gray-600 text-base leading-relaxed space-y-4">
+          <div className="text-gray-600 dark:text-gray-400 text-base leading-relaxed space-y-4">
             <p>
               This todo dashboard application was developed as a comprehensive
               frontend project focused on exploring and implementing modern web

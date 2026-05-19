@@ -16,21 +16,21 @@ function Settings() {
   return (
     <DashboardLayout>
       <div className="max-w-4xl mx-auto w-full">
-        <div className="bg-white rounded-xl border border-gray-200 p-4 md:p-6 shadow-sm mb-6">
+        <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4 md:p-6 shadow-sm mb-6 transition-colors">
           <h1 className="font-medium text-2xl mb-2 ">Settings</h1>
-          <p className="text-sm">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             Manage your account settings and preferences.
           </p>
 
           {/* Tab Navigation */}
-          <nav className="flex gap-2 md:gap-4 mt-8 border-b border-gray-200 overflow-x-auto whitespace-nowrap scrollbar-hide">
+          <nav className="flex gap-2 md:gap-4 mt-8 border-b border-gray-200 dark:border-slate-700 overflow-x-auto whitespace-nowrap scrollbar-hide">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-3 md:px-4 py-3 font-medium text-sm transition-all border-b-2 ${activeTab === tab.id
-                  ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-gray-600 hover:text-gray-900"
+                  ? "border-blue-500 text-blue-600 dark:text-blue-400"
+                  : "border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
                   }`}
               >
                 {tab.label}

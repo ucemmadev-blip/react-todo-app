@@ -10,7 +10,7 @@ function Tasks() {
   return (
     <DashboardLayout>
       <div className="grid grid-cols-1 lg:grid-cols-2 lg:h-150 gap-6">
-        <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm overflow-y-auto">
+        <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5 shadow-sm overflow-y-auto transition-colors">
           <h2 className="mb-5 font-semibold text-md">My Task</h2>
 
           <div className="flex flex-col gap-3">
@@ -23,7 +23,7 @@ function Tasks() {
             ))}
           </div>
         </div>
-        <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm overflow-y-auto">
+        <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5 shadow-sm overflow-y-auto transition-colors">
           {selectedTodo ? (
             <div>
               <div className="flex flex-col sm:flex-row gap-4 text-base/8">
@@ -43,7 +43,7 @@ function Tasks() {
               </div>
               <div>
                 <h3 className="font-medium text-sm mt-5 mb-2">Description</h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
                   {selectedTodo.description}
                 </p>
               </div>

@@ -42,19 +42,19 @@ function Security() {
   };
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+    <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-6 shadow-sm transition-colors">
       <h1 className="font-medium text-2xl mb-2">Security Settings</h1>
-      <p className="text-sm text-gray-600 mb-8">
+      <p className="text-sm text-gray-600 dark:text-gray-400 mb-8">
         Manage your account's security preferences.
       </p>
 
       <div className="space-y-6">
         {/* Change Password Section */}
-        <div className="border border-gray-200 rounded-lg p-6">
-          <div className="flex justify-between items-start mb-6">
+        <div className="border border-gray-200 dark:border-slate-700 rounded-lg p-6 transition-colors">
+          <div className="flex flex-col lg:flex-row justify-between lg:items-center">
             <div>
               <h3 className="font-semibold text-lg">Password</h3>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 mb-4">
                 Change your password regularly to keep your account secure
               </p>
             </div>
@@ -72,7 +72,7 @@ function Security() {
             <div className="space-y-4">
               {/* Current Password */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Current Password
                 </label>
                 <input
@@ -80,13 +80,13 @@ function Security() {
                   name="currentPassword"
                   value={passwordForm.currentPassword}
                   onChange={handlePasswordChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
                 />
               </div>
 
               {/* New Password */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   New Password
                 </label>
                 <input
@@ -94,13 +94,13 @@ function Security() {
                   name="newPassword"
                   value={passwordForm.newPassword}
                   onChange={handlePasswordChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
                 />
               </div>
 
               {/* Confirm Password */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Confirm Password
                 </label>
                 <input
@@ -108,7 +108,7 @@ function Security() {
                   name="confirmPassword"
                   value={passwordForm.confirmPassword}
                   onChange={handlePasswordChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
                 />
               </div>
 
@@ -122,7 +122,7 @@ function Security() {
                 </button>
                 <button
                   onClick={() => setShowPasswordForm(false)}
-                  className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                  className="flex-1 px-4 py-2 bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-slate-600 transition-colors font-medium"
                 >
                   Cancel
                 </button>
@@ -132,20 +132,19 @@ function Security() {
         </div>
 
         {/* Email Verification Section */}
-        <div className="border border-gray-200 rounded-lg p-6">
-          <div className="flex justify-between items-start">
+        <div className="border border-gray-200 dark:border-slate-700 rounded-lg p-6 transition-colors">
+          <div className="flex flex-col lg:flex-row justify-between lg:items-center">
             <div>
               <h3 className="font-semibold text-lg">Email Verification</h3>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                 Verify your email address to enhance account security
               </p>
               <div className="mt-4">
                 <span
-                  className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-                    emailVerified
-                      ? "bg-green-100 text-green-700"
-                      : "bg-yellow-100 text-yellow-700"
-                  }`}
+                  className={`inline-block mb-4 px-3 py-1 rounded-full text-xs font-medium ${emailVerified
+                    ? "bg-green-100 text-green-700"
+                    : "bg-yellow-100 text-yellow-700"
+                    }`}
                 >
                   {emailVerified ? "✓ Verified" : "⚠ Not Verified"}
                 </span>
@@ -153,11 +152,10 @@ function Security() {
             </div>
             <button
               onClick={handleEmailVerification}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                emailVerified
-                  ? "bg-red-500 text-white hover:bg-red-600"
-                  : "bg-blue-500 text-white hover:bg-blue-600"
-              }`}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${emailVerified
+                ? "bg-red-500 text-white hover:bg-red-600"
+                : "bg-blue-500 text-white hover:bg-blue-600"
+                }`}
             >
               {emailVerified ? "Disable" : "Verify Email"}
             </button>
@@ -165,17 +163,17 @@ function Security() {
         </div>
 
         {/* Two-Factor Authentication */}
-        <div className="border border-gray-200 rounded-lg p-6">
-          <div className="flex justify-between items-start">
+        <div className="border border-gray-200 dark:border-slate-700 rounded-lg p-6 transition-colors">
+          <div className="flex flex-col lg:flex-row justify-between lg:items-center">
             <div>
               <h3 className="font-semibold text-lg">
                 Two-Factor Authentication
               </h3>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                 Add an extra layer of security to your account
               </p>
               <div className="mt-4">
-                <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                <span className="inline-block mb-4 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
                   Disabled
                 </span>
               </div>
@@ -187,20 +185,20 @@ function Security() {
         </div>
 
         {/* Active Sessions */}
-        <div className="border border-gray-200 rounded-lg p-6">
+        <div className="border border-gray-200 dark:border-slate-700 rounded-lg p-6 transition-colors">
           <h3 className="font-semibold text-lg mb-4">Active Sessions</h3>
           <div className="space-y-3">
-            <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+            <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-slate-700 rounded-lg transition-colors">
               <div>
                 <p className="font-medium text-sm">Current Browser</p>
-                <p className="text-xs text-gray-600">Chrome on Windows</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">Chrome on Windows</p>
               </div>
               <span className="text-xs text-green-600 font-medium">Active</span>
             </div>
-            <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+            <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-slate-700 rounded-lg transition-colors">
               <div>
                 <p className="font-medium text-sm">Mobile Device</p>
-                <p className="text-xs text-gray-600">Safari on iOS</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">Safari on iOS</p>
               </div>
               <button className="text-xs text-red-600 hover:text-red-700 font-medium">
                 Sign Out

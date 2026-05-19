@@ -1,6 +1,6 @@
 function Navbar({ onMenuClick }) {
   return (
-    <nav className="shadow-md p-2.5 bg-white z-20">
+    <nav className="shadow-md p-2.5 bg-white dark:bg-slate-800 dark:text-gray-100 transition-colors z-20">
       <div className="flex justify-between items-center mx-2 md:mx-10 my-2">
         <div className="flex items-center gap-3">
           <button 
@@ -12,7 +12,7 @@ function Navbar({ onMenuClick }) {
             </svg>
           </button>
           <div className="logo">
-            <h1 className="font-semibold text-2xl md:text-4xl">
+            <h1 className="font-semibold text-2xl md:text-4xl dark:text-white">
               Dash<span className="text-[#FF6767]">board</span>
             </h1>
           </div>
@@ -22,7 +22,7 @@ function Navbar({ onMenuClick }) {
           <input
             type="text"
             placeholder="Search your task here..."
-            className="w-2xl border rounded-md py-2.5 px-2"
+            className="w-2xl border dark:border-slate-600 rounded-md py-2.5 px-2 bg-transparent dark:text-white dark:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
         </div>
 

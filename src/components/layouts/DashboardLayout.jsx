@@ -6,7 +6,7 @@ function DashboardLayout({ children }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="h-screen bg-slate-100 overflow-hidden flex flex-col">
+    <div className="h-screen bg-slate-100 dark:bg-slate-900 dark:text-gray-100 overflow-hidden flex flex-col transition-colors">
       <Navbar onMenuClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
 
       <div className="flex flex-1 overflow-hidden relative">

@@ -1,14 +1,14 @@
 function GroupedData({ todo, onClick }) {
   return (
     <div
-      className="border border-gray-200 bg-white  rounded-xl mb-3 p-4"
+      className="border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-xl mb-3 p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
       onClick={onClick}
     >
       <div className="flex justify-between gap-3 items-start">
         {/* Text section */}
         <div className="flex-1">
           <h2 className="font-semibold  text-lg">{todo.title}</h2>
-          <p className="text-xs  line-clamp-2">{todo.description}</p>
+          <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">{todo.description}</p>
         </div>
 
         {/* Image */}
@@ -22,10 +22,10 @@ function GroupedData({ todo, onClick }) {
       </div>
 
       {/* Footer info */}
-      <div className="flex gap-2 mt-3 text-xs justify-between">
-        <p>Priority: {todo.priority}</p>
-        <p>Status: {todo.status}</p>
-        <p>Created on: {todo.date}</p>
+      <div className="flex gap-2 mt-3 text-xs justify-between text-gray-500 dark:text-gray-400">
+        <p>{todo.priority}</p>
+        <p>{todo.status}</p>
+        <p>{todo.date}</p>
       </div>
     </div>
   );

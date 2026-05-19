@@ -11,7 +11,7 @@ function CircularProgress({ percentage, label, color }) {
             cy="50"
             r="45"
             fill="none"
-            stroke="#e5e7eb"
+            className="stroke-gray-200 dark:stroke-slate-700 transition-colors"
             strokeWidth="8"
           />
           <circle
@@ -31,7 +31,7 @@ function CircularProgress({ percentage, label, color }) {
         </div>
       </div>
       <div className="text-center mt-10">
-        <p className="text-xs font-semibold text-gray-700">{label}</p>
+        <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 transition-colors">{label}</p>
       </div>
     </div>
   );
