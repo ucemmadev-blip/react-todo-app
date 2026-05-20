@@ -2,9 +2,11 @@ import { useNavigate } from "react-router-dom";
 import loginImage from "../assets/login-hero.png";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
 
 function Login() {
   const { login } = useAuth();
+  const [authError, setAuthError] = useState("");
 
   const {
     register,
@@ -15,17 +17,22 @@ function Login() {
 
   const onSubmit = async (data) => {
     try {
+      setAuthError("");
       await login(data.email, data.password);
       console.log("User logged in successfully!");
       navigate("/");
     } catch (error) {
       console.error("Error during login:", error);
+      setAuthError("Invalid email or password.");
     }
   };
   return (
     <div className="min-h-screen flex items-center justify-center bg-transparent px-4 py-8">
       <div className="w-full max-w-6xl flex flex-col-reverse gap-10 md:flex-row md:items-center">
         <div className="w-full md:w-1/2 max-w-md mx-auto">
+          {authError && (
+            <p className="text-red-500 text-sm mb-3">{authError}</p>
+          )}
           <h1 className="text-3xl font-bold mb-4">Login</h1>
           <p className="text-gray-600 mb-6">
             Welcome back! Please enter your credentials to access your account.
