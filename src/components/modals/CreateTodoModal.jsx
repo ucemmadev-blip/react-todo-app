@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTodo } from "../../context/TodoContext";
+import { useAuth } from "../../context/AuthContext";
 
 function CreateTodoModal({ isOpen, onClose }) {
+  const { user } = useAuth();
   const [previewImage, setPreviewImage] = useState();
 
   const {
@@ -25,18 +27,23 @@ function CreateTodoModal({ isOpen, onClose }) {
     }
   }, [imageFile]);
 
-  const onSubmit = (data) => {
-    addTodo({
-      id: Date.now(),
-      title: data.title,
-      description: data.description,
-      status: "pending",
-      priority: data.priority,
-      date: data.date,
-      image: previewImage,
-    });
-    console.log(data);
-    onClose();
+  const onSubmit = async (data) => {
+    try {
+      await addTodo({
+        title: data.title,
+        description: data.description,
+        priority: data.priority,
+        date: data.date,
+        status: "pending",
+        image: previewImage,
+        userId: user.uid,
+        createdAt: Date.now(),
+      });
+
+      onClose();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   if (!isOpen) return null;

@@ -3,15 +3,18 @@ import CircularProgress from "./CircularProgress";
 import CreateTodoModal from "../modals/CreateTodoModal";
 import { useState } from "react";
 import { useTodo } from "../../context/TodoContext";
+import { useAuth } from "../../context/AuthContext";
 
 function Main() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { todos } = useTodo();
 
-  const completedTodos = todos.filter((todo) => todo.status === "completed");
+  const { todos, completedTodos, pendingTodos } = useTodo();
+
+  const { userData } = useAuth();
+
   return (
     <div>
-      <h1 className="font-medium text-2xl">Welcome back, John Doe👋</h1>
+      <h1 className="font-medium text-2xl">{`Welcome ${userData?.firstName} ${userData?.lastName} !`}</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 gap-4 lg:h-137.5 mt-6">
         <div
@@ -20,7 +23,10 @@ function Main() {
         >
           <div className="flex justify-between items-center mb-4">
             <h3 className="font-medium text-sm">To-Do</h3>
-            <button className="text-xs text-blue-500 hover:underline" onClick={() => setIsModalOpen(true)}>
+            <button
+              className="text-xs text-blue-500 hover:underline"
+              onClick={() => setIsModalOpen(true)}
+            >
               Add Todo
             </button>
             {isModalOpen && (
@@ -31,7 +37,7 @@ function Main() {
             )}
           </div>
           <div className="flex flex-col gap-3">
-            {todos.slice(0, 3).map((todo) => (
+            {pendingTodos.slice(0, 3).map((todo) => (
               <GroupedData key={todo.id} todo={todo} />
             ))}
           </div>
@@ -63,7 +69,9 @@ function Main() {
         <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5 shadow-sm transition-colors">
           <div className="flex justify-between items-center mb-6">
             <h3 className="font-medium text-sm">Completed Tasks</h3>
-            <button className="text-xs text-blue-500 hover:underline">View More</button>
+            <button className="text-xs text-blue-500 hover:underline">
+              View More
+            </button>
           </div>
           <div className="flex flex-col gap-3">
             {completedTodos.slice(0, 1).map((todo) => (

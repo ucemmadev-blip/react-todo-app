@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useTodo } from "../context/TodoContext";
 
 function Tasks() {
-  const { todos } = useTodo()
+  const { todos } = useTodo();
   const [selectedTodo, setSelectedTodo] = useState();
 
   return (
@@ -28,7 +28,7 @@ function Tasks() {
             <div>
               <div className="flex flex-col sm:flex-row gap-4 text-base/8">
                 <img
-                  src={`${selectedTodo.images}`}
+                  src={`${selectedTodo.image}`}
                   alt=""
                   className="w-full sm:w-40 sm:h-40 object-cover rounded-lg"
                 />
@@ -58,7 +58,9 @@ function Tasks() {
               </div>
             </div>
           ) : (
-            <p className="text-gray-500 text-center mt-10">Select a task to view details</p>
+            <p className="text-gray-500 text-center mt-10">
+              Select a task to view details
+            </p>
           )}
         </div>
       </div>

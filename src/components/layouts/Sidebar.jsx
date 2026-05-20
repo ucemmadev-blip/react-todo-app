@@ -1,6 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 function Sidebar() {
+  const { logout, userData } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+
+      navigate("/login");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <aside className="w-64 h-full bg-[#FF6767] dark:bg-slate-800 text-white p-5 flex flex-col shadow-lg md:shadow-none transition-colors">
       {/* Profile Section (Top) */}
@@ -11,28 +25,45 @@ function Sidebar() {
           className="w-15 h-15 rounded-full"
         />
         <div>
-          <p className="font-semibold text-2xl">John Doe</p>
+          <p className="font-semibold text-2xl">
+            {userData?.username || "User"}
+          </p>
         </div>
       </div>
 
       {/* Navigation */}
       <nav className="flex flex-col gap-4">
-        <Link to="/" className="hover:bg-[#e62b2b28] dark:hover:bg-slate-700 p-3 rounded-lg transition-colors">
+        <Link
+          to="/"
+          className="hover:bg-[#e62b2b28] dark:hover:bg-slate-700 p-3 rounded-lg transition-colors"
+        >
           Dashboard
         </Link>
-        <Link to="/tasks" className="hover:bg-[#e62b2b28] dark:hover:bg-slate-700 p-3 rounded-lg transition-colors">
+        <Link
+          to="/tasks"
+          className="hover:bg-[#e62b2b28] dark:hover:bg-slate-700 p-3 rounded-lg transition-colors"
+        >
           My Tasks
         </Link>
-        <Link to="/settings" className="hover:bg-[#e62b2b28] dark:hover:bg-slate-700 p-3 rounded-lg transition-colors">
+        <Link
+          to="/settings"
+          className="hover:bg-[#e62b2b28] dark:hover:bg-slate-700 p-3 rounded-lg transition-colors"
+        >
           Settings
         </Link>
-        <Link to="/about" className="hover:bg-[#e62b2b28] dark:hover:bg-slate-700 p-3 rounded-lg transition-colors">
+        <Link
+          to="/about"
+          className="hover:bg-[#e62b2b28] dark:hover:bg-slate-700 p-3 rounded-lg transition-colors"
+        >
           About
         </Link>
       </nav>
 
       {/* Logout pinned to bottom */}
-      <button className="mt-auto hover:bg-red-600 dark:hover:bg-red-700 p-3 rounded-lg transition-colors">
+      <button
+        className="mt-auto hover:bg-red-600 dark:hover:bg-red-700 p-3 rounded-lg transition-colors "
+        onClick={handleLogout}
+      >
         Logout
       </button>
     </aside>

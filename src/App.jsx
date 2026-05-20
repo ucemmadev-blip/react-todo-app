@@ -3,15 +3,49 @@ import Dashboard from "./pages/Dashboard";
 import Tasks from "./pages/Tasks";
 import Settings from "./pages/Settings";
 import About from "./pages/About";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import ProtectedRoutes from "./components/routes/ProtectedRoutes";
 
 function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/tasks" element={<Tasks />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/about" element={<About />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoutes>
+              <Dashboard />
+            </ProtectedRoutes>
+          }
+        />
+
+        <Route
+          path="/tasks"
+          element={
+            <ProtectedRoutes>
+              <Tasks />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoutes>
+              <Settings />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <ProtectedRoutes>
+              <About />
+            </ProtectedRoutes>
+          }
+        />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </div>
   );
