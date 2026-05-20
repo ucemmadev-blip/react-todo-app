@@ -31,18 +31,36 @@ function Login() {
             Welcome back! Please enter your credentials to access your account.
           </p>
           <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-            <input
-              type="text"
-              {...register("email", { required: "Email is required" })}
-              placeholder="Enter Email"
-              className="w-full border dark:border-slate-600 rounded-md py-4 px-3 bg-transparent mb-3 dark:text-white dark:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            <input
-              type="password"
-              {...register("password", { required: "Password is required" })}
-              placeholder="Enter Password"
-              className="w-full border dark:border-slate-600 rounded-md py-4 px-3 bg-transparent mb-3 dark:text-white dark:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
+            <div>
+              <input
+                type="text"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: /^\S+@\S+$/i,
+                })}
+                placeholder="Enter Email"
+                className="w-full border dark:border-slate-600 rounded-md py-4 px-3 bg-transparent mb-3 dark:text-white dark:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              />
+              {errors.email && (
+                <p className="text-red-500 text-sm">{errors.email.message}</p>
+              )}
+            </div>
+            <div>
+              <input
+                type="password"
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: 6,
+                })}
+                placeholder="Enter Password"
+                className="w-full border dark:border-slate-600 rounded-md py-4 px-3 bg-transparent mb-3 dark:text-white dark:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              />
+              {errors.password && (
+                <p className="text-red-500 text-sm">
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
             <div className="mb-5">
               <button
                 type="submit"
