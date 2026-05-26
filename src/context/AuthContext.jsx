@@ -27,12 +27,6 @@ function AuthProvider({ children }) {
     }
   };
 
-  // useEffect(() => {
-  //   if (user) {
-  //     fetchUserData(user.uid);
-  //   }
-  // }, [user]);
-
   function signup(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
   }
@@ -63,7 +57,16 @@ function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, userData, loading, signup, login, logout }}
+      value={{
+        user,
+        userData,
+        loading,
+        signup,
+        login,
+        logout,
+        setUserData,
+        fetchUserData,
+      }}
     >
       {children}
     </AuthContext.Provider>

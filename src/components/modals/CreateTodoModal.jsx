@@ -29,13 +29,33 @@ function CreateTodoModal({ isOpen, onClose }) {
 
   const onSubmit = async (data) => {
     try {
+      let imageUrl = "";
+
+      if (data.image && data.image[0]) {
+        const imqgeFile = data.image[0];
+
+        const formData = new FormData();
+        formData.append("file", imqgeFile);
+        formData.append("upload_preset", "todo-app-images");
+
+        const respone = await fetch(
+          "https://api.cloudinary.com/v1_1/dbg4jbrey/image/upload",
+          {
+            method: "POST",
+            body: formData,
+          },
+        );
+        const imageData = await respone.json();
+        console.log(imageData);
+        imageUrl = imageData.secure_url;
+      }
       await addTodo({
         title: data.title,
         description: data.description,
         priority: data.priority,
         date: data.date,
         status: "pending",
-        image: previewImage,
+        image: imageUrl,
         userId: user.uid,
         createdAt: Date.now(),
       });

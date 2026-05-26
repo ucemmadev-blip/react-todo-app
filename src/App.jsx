@@ -6,6 +6,7 @@ import About from "./pages/About";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import ProtectedRoutes from "./components/routes/ProtectedRoutes";
+import TodoDetails from "./pages/TodoDetails";
 
 function App() {
   return (
@@ -41,6 +42,15 @@ function App() {
           element={
             <ProtectedRoutes>
               <About />
+            </ProtectedRoutes>
+          }
+        />
+
+        <Route
+          path="/todo/:id"
+          element={
+            <ProtectedRoutes>
+              <TodoDetails />
             </ProtectedRoutes>
           }
         />

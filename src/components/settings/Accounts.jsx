@@ -1,14 +1,33 @@
-import { useState } from "react";
+import { use, useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase/firebase";
+import { useEffect } from "react";
 
 function Accounts() {
+  const { user, userData, setUserData, fetchUserData } = useAuth();
+
   const [formData, setFormData] = useState({
-    username: "John Doe",
-    email: "john@example.com",
-    phone: "+1 (555) 000-0000",
-    location: "San Francisco, CA",
-    bio: "React Developer",
-    profilePicture: "https://i.pravatar.cc/100",
+    username: "",
+    email: "",
+    phone: "",
+    location: "",
+    bio: "",
+    profilePicture: "",
   });
+
+  useEffect(() => {
+    if (userData) {
+      setFormData({
+        username: userData.username || "",
+        email: user.email || "",
+        phone: userData.phone || "",
+        location: userData.location || "",
+        bio: userData.bio || "",
+        profilePicture: userData.profilePicture || "",
+      });
+    }
+  }, [userData]);
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -20,10 +39,65 @@ function Accounts() {
     }));
   };
 
-  const handleSave = () => {
-    setIsEditing(false);
-    // API call would go here
-    alert("Profile updated successfully!");
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    try {
+      const formDataImage = new FormData();
+
+      formDataImage.append("file", file);
+      formDataImage.append("upload_preset", "todo-app-images");
+
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dbg4jbrey/image/upload",
+        {
+          method: "POST",
+          body: formDataImage,
+        },
+      );
+
+      const data = await response.json();
+
+      setFormData((prev) => ({
+        ...prev,
+        profilePicture: data.secure_url,
+      }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      const userRef = doc(db, "users", user.uid);
+
+      await updateDoc(userRef, {
+        username: formData.username,
+        phone: formData.phone,
+        location: formData.location,
+        bio: formData.bio,
+        profilePicture: formData.profilePicture,
+      });
+
+      setUserData((prev) => ({
+        ...prev,
+        username: formData.username,
+        phone: formData.phone,
+        location: formData.location,
+        bio: formData.bio,
+        profilePicture: formData.profilePicture,
+      }));
+
+      await fetchUserData(user.uid);
+
+      setIsEditing(false);
+
+      alert("Profile updated successfully!");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
   };
 
   return (
@@ -39,14 +113,20 @@ function Accounts() {
           <h3 className="font-semibold text-lg mb-4">Profile Picture</h3>
           <div className="flex items-center gap-6">
             <img
-              src={formData.profilePicture}
+              src={formData.profilePicture || "https://i.pravatar.cc/150?img=3"}
               alt="profile"
               className="w-20 h-20 rounded-full object-cover"
             />
             {isEditing && (
-              <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+              <label className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors cursor-pointer">
                 Change Picture
-              </button>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
+              </label>
             )}
           </div>
         </div>
@@ -158,5 +238,6 @@ function Accounts() {
     </div>
   );
 }
+import { Form } from "react-router-dom";
 
 export default Accounts;

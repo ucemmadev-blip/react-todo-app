@@ -1,14 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "../../context/AuthContext";
+import {
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+  updatePassword,
+  sendEmailVerification,
+} from "firebase/auth/web-extension";
 
 function Security() {
+  const { user } = useAuth();
+
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
 
-  const [emailVerified, setEmailVerified] = useState(false);
+  // const [emailVerified, setEmailVerified] = useState(false);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
+  useEffect(() => {
+    const refreshUser = async () => {
+      if (user) {
+        await user.reload();
+      }
+    };
+
+    refreshUser();
+  }, []);
+  const emailVerified = user?.emailVerified;
 
   const handlePasswordChange = (e) => {
     const { name, value } = e.target;
@@ -18,27 +37,55 @@ function Security() {
     }));
   };
 
-  const handleUpdatePassword = () => {
-    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-      alert("Passwords do not match!");
-      return;
+  const handleUpdatePassword = async () => {
+    try {
+      if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      const credential = EmailAuthProvider.credential(
+        user.email,
+        passwordForm.currentPassword,
+      );
+
+      // Verify current password first
+      await reauthenticateWithCredential(user, credential);
+
+      // Update password
+      await updatePassword(user, passwordForm.newPassword);
+
+      alert("Password updated successfully!");
+
+      setPasswordForm({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      });
+
+      setShowPasswordForm(false);
+    } catch (error) {
+      console.log(error);
+
+      if (error.code === "auth/wrong-password") {
+        alert("Current password is incorrect");
+      } else if (error.code === "auth/weak-password") {
+        alert("Password should be at least 6 characters");
+      } else {
+        alert(error.message);
+      }
     }
-    alert("Password updated successfully!");
-    setPasswordForm({
-      currentPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-    });
-    setShowPasswordForm(false);
   };
 
-  const handleEmailVerification = () => {
-    setEmailVerified(!emailVerified);
-    alert(
-      emailVerified
-        ? "Email verification disabled"
-        : "Verification email sent to your inbox",
-    );
+  const handleEmailVerification = async () => {
+    try {
+      await sendEmailVerification(user);
+
+      alert("Verification email sent!");
+    } catch (error) {
+      console.log(error);
+      alert(error.message);
+    }
   };
 
   return (
@@ -141,10 +188,11 @@ function Security() {
               </p>
               <div className="mt-4">
                 <span
-                  className={`inline-block mb-4 px-3 py-1 rounded-full text-xs font-medium ${emailVerified
-                    ? "bg-green-100 text-green-700"
-                    : "bg-yellow-100 text-yellow-700"
-                    }`}
+                  className={`inline-block mb-4 px-3 py-1 rounded-full text-xs font-medium ${
+                    emailVerified
+                      ? "bg-green-100 text-green-700"
+                      : "bg-yellow-100 text-yellow-700"
+                  }`}
                 >
                   {emailVerified ? "✓ Verified" : "⚠ Not Verified"}
                 </span>
@@ -152,10 +200,11 @@ function Security() {
             </div>
             <button
               onClick={handleEmailVerification}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${emailVerified
-                ? "bg-red-500 text-white hover:bg-red-600"
-                : "bg-blue-500 text-white hover:bg-blue-600"
-                }`}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                emailVerified
+                  ? "bg-red-500 text-white hover:bg-red-600"
+                  : "bg-blue-500 text-white hover:bg-blue-600"
+              }`}
             >
               {emailVerified ? "Disable" : "Verify Email"}
             </button>
@@ -191,14 +240,18 @@ function Security() {
             <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-slate-700 rounded-lg transition-colors">
               <div>
                 <p className="font-medium text-sm">Current Browser</p>
-                <p className="text-xs text-gray-600 dark:text-gray-400">Chrome on Windows</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">
+                  Chrome on Windows
+                </p>
               </div>
               <span className="text-xs text-green-600 font-medium">Active</span>
             </div>
             <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-slate-700 rounded-lg transition-colors">
               <div>
                 <p className="font-medium text-sm">Mobile Device</p>
-                <p className="text-xs text-gray-600 dark:text-gray-400">Safari on iOS</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">
+                  Safari on iOS
+                </p>
               </div>
               <button className="text-xs text-red-600 hover:text-red-700 font-medium">
                 Sign Out

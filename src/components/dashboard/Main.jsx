@@ -4,13 +4,24 @@ import CreateTodoModal from "../modals/CreateTodoModal";
 import { useState } from "react";
 import { useTodo } from "../../context/TodoContext";
 import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { Plus } from "lucide-react";
 
 function Main() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { todos, completedTodos, pendingTodos } = useTodo();
+  const {
+    todos,
+    completedTodos,
+    pendingTodos,
+    completedPercentage,
+    inProgressPercentage,
+    notStartedPercentage,
+  } = useTodo();
 
   const { userData } = useAuth();
+
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -27,6 +38,7 @@ function Main() {
               className="text-xs text-blue-500 hover:underline"
               onClick={() => setIsModalOpen(true)}
             >
+              <Plus className="inline-block mr-1" size={14} />
               Add Todo
             </button>
             {isModalOpen && (
@@ -38,7 +50,11 @@ function Main() {
           </div>
           <div className="flex flex-col gap-3">
             {pendingTodos.slice(0, 3).map((todo) => (
-              <GroupedData key={todo.id} todo={todo} />
+              <GroupedData
+                key={todo.id}
+                todo={todo}
+                onClick={() => navigate(`/todo/${todo.id}`)}
+              />
             ))}
           </div>
         </div>
@@ -50,17 +66,17 @@ function Main() {
           <p className="font-medium text-sm mb-6">Task Status</p>
           <div className="flex flex-wrap justify-around items-start flex-1 gap-4">
             <CircularProgress
-              percentage={84}
+              percentage={completedPercentage}
               label="Completed"
               color="#22c55e"
             />
             <CircularProgress
-              percentage={46}
+              percentage={inProgressPercentage}
               label="In Progress"
               color="#3b82f6"
             />
             <CircularProgress
-              percentage={13}
+              percentage={notStartedPercentage}
               label="Not Started"
               color="#ef4444"
             />
@@ -75,7 +91,11 @@ function Main() {
           </div>
           <div className="flex flex-col gap-3">
             {completedTodos.slice(0, 1).map((todo) => (
-              <GroupedData key={todo.id} todo={todo} />
+              <GroupedData
+                key={todo.id}
+                todo={todo}
+                onClick={() => navigate(`/todo/${todo.id}`)}
+              />
             ))}
           </div>
         </div>

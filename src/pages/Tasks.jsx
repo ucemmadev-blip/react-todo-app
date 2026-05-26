@@ -2,15 +2,18 @@ import DashboardLayout from "../components/layouts/DashboardLayout";
 import GroupedData from "../components/dashboard/GroupedData";
 import { useState } from "react";
 import { useTodo } from "../context/TodoContext";
+import { CheckCheck, Ellipsis, Trash2 } from "lucide-react";
 
 function Tasks() {
-  const { todos } = useTodo();
-  const [selectedTodo, setSelectedTodo] = useState();
+  const { todos, updateTodoStatus, deleteTodo } = useTodo();
+  const [selectedTodoId, setSelectedTodoId] = useState();
+
+  const selectedTodo = todos.find((todo) => todo.id === selectedTodoId);
 
   return (
     <DashboardLayout>
       <div className="grid grid-cols-1 lg:grid-cols-2 lg:h-150 gap-6">
-        <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5 shadow-sm overflow-y-auto transition-colors">
+        <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5 shadow-sm overflow-y-auto transition-colors flex flex-col">
           <h2 className="mb-5 font-semibold text-md">My Task</h2>
 
           <div className="flex flex-col gap-3">
@@ -18,14 +21,14 @@ function Tasks() {
               <GroupedData
                 key={todo.id}
                 todo={todo}
-                onClick={() => setSelectedTodo(todo)}
+                onClick={() => setSelectedTodoId(todo.id)}
               />
             ))}
           </div>
         </div>
-        <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5 shadow-sm overflow-y-auto transition-colors">
+        <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5 shadow-sm overflow-y-auto transition-colors flex flex-col">
           {selectedTodo ? (
-            <div>
+            <div className="flex flex-col h-full">
               <div className="flex flex-col sm:flex-row gap-4 text-base/8">
                 <img
                   src={`${selectedTodo.image}`}
@@ -48,12 +51,35 @@ function Tasks() {
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
-                <button className="bg-[#FF6767] text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
-                  Mark as In Progress
+              <div className="flex gap-4 mt-auto justify-end pt-10 ">
+                <button
+                  onClick={() =>
+                    updateTodoStatus(selectedTodo.id, "in-progress")
+                  }
+                  disabled={selectedTodo.status === "completed"}
+                  className={`bg-[#FF6767] text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors ${
+                    selectedTodo.status === "completed"
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-[#ff6767] text-white hover:bg-red-600"
+                  }`}
+                >
+                  <Ellipsis />
                 </button>
-                <button className="bg-[#FF6767] text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
-                  Mark as Completed
+                <button
+                  onClick={() => updateTodoStatus(selectedTodo.id, "completed")}
+                  className={`bg-[#FF6767] text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors ${
+                    selectedTodo.status === "completed"
+                      ? "bg-green-700 cursor-not-allowed "
+                      : "bg-[#ff6767] text-white hover:bg-red-600"
+                  }`}
+                >
+                  <CheckCheck />
+                </button>
+                <button
+                  onClick={() => deleteTodo(selectedTodo.id)}
+                  className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-[#FF6767] transition-colors"
+                >
+                  <Trash2 />
                 </button>
               </div>
             </div>
