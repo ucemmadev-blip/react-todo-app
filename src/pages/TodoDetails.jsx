@@ -1,8 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useTodo } from "../context/TodoContext";
-import DashBoardLayout from "../components/layouts/DashBoardLayout";
 import { CheckCheck, Ellipsis, Trash2 } from "lucide-react";
-import { use } from "react";
+import DashBoardLayout from "../components/layouts/DashBoardLayout";
 
 function TodoDetails() {
   const { id } = useParams();
