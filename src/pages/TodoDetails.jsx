@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useTodo } from "../context/TodoContext";
 import { CheckCheck, Ellipsis, Trash2 } from "lucide-react";
-import DashBoardLayout from "../components/layouts/DashBoardLayout";
+import DashboardLayout from "../components/layouts/DashboardLayout";
 
 function TodoDetails() {
   const { id } = useParams();
@@ -20,7 +20,7 @@ function TodoDetails() {
   }
 
   return (
-    <DashBoardLayout>
+    <DashboardLayout>
       <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-3 sm:p-5 md:p-6 shadow-sm lg:row-span-2 transition-colors h-full mx-2 sm:mx-4 md:mx-6 lg:mx-10">
         <div className="flex flex-col sm:flex-row justify-end gap-3 mb-4 cursor-pointer">
           {/* <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">
@@ -100,7 +100,7 @@ function TodoDetails() {
           </div>
         </div>
       </div>
-    </DashBoardLayout>
+    </DashboardLayout>
   );
 }
 
