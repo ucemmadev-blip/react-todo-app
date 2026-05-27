@@ -224,17 +224,6 @@ function Security() {
               </div>
               <span className="text-xs text-green-600 font-medium">Active</span>
             </div>
-            <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-slate-700 rounded-lg transition-colors">
-              <div>
-                <p className="font-medium text-sm">Mobile Device</p>
-                <p className="text-xs text-gray-600 dark:text-gray-400">
-                  Safari on iOS
-                </p>
-              </div>
-              <button className="text-xs text-red-600 hover:text-red-700 font-medium">
-                Sign Out
-              </button>
-            </div>
           </div>
         </div>
       </div>
