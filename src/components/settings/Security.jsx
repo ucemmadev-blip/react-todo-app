@@ -211,28 +211,6 @@ function Security() {
           </div>
         </div>
 
-        {/* Two-Factor Authentication */}
-        <div className="border border-gray-200 dark:border-slate-700 rounded-lg p-6 transition-colors">
-          <div className="flex flex-col lg:flex-row justify-between lg:items-center">
-            <div>
-              <h3 className="font-semibold text-lg">
-                Two-Factor Authentication
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                Add an extra layer of security to your account
-              </p>
-              <div className="mt-4">
-                <span className="inline-block mb-4 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
-                  Disabled
-                </span>
-              </div>
-            </div>
-            <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium">
-              Enable 2FA
-            </button>
-          </div>
-        </div>
-
         {/* Active Sessions */}
         <div className="border border-gray-200 dark:border-slate-700 rounded-lg p-6 transition-colors">
           <h3 className="font-semibold text-lg mb-4">Active Sessions</h3>
